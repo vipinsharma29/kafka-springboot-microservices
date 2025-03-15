@@ -19,8 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.vipin.paymentsService.exception.TransferServiceException;
 import com.vipin.paymentsService.dto.TransferRestModel;
-import com.vipin.transactionCommonService.event.DepositRequestedEvent;
-import com.vipin.transactionCommonService.event.WithdrawalRequestedEvent;
+import com.vipin.transactionCommonService.event.TransactionRequestedEvent;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -42,9 +41,9 @@ public class TransferServiceImpl implements TransferService {
     @Transactional("transactionManager")
     @Override
     public boolean transfer(TransferRestModel transferRestModel) {
-        WithdrawalRequestedEvent withdrawalEvent = new WithdrawalRequestedEvent(transferRestModel.getSenderId(),
+        TransactionRequestedEvent withdrawalEvent = new TransactionRequestedEvent(transferRestModel.getSenderId(),
                 transferRestModel.getRecipientId(), transferRestModel.getAmount());
-        DepositRequestedEvent depositEvent = new DepositRequestedEvent(transferRestModel.getSenderId(),
+        TransactionRequestedEvent depositEvent = new TransactionRequestedEvent(transferRestModel.getSenderId(),
                 transferRestModel.getRecipientId(), transferRestModel.getAmount());
 
         try {
